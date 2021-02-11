@@ -2,7 +2,9 @@ package ru.javawebinar.topjava.model;
 
 import java.time.LocalDateTime;
 
-public class MealTo {
+public class
+
+MealTo {
     private final LocalDateTime dateTime;
 
     private final String description;
@@ -27,4 +29,5 @@ public class MealTo {
                 ", excess=" + excess +
                 '}';
     }
+
 }
