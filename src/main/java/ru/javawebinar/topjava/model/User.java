@@ -78,6 +78,16 @@ public class User extends AbstractNamedEntity {
     }
 
     @Override
+    public void setId(Integer id) {
+        super.setId(id);
+    }
+
+    @Override
+    public Integer getId() {
+        return super.getId();
+    }
+
+    @Override
     public String toString() {
         return "User (" +
                 "id=" + id +
@@ -88,4 +98,5 @@ public class User extends AbstractNamedEntity {
                 ", caloriesPerDay=" + caloriesPerDay +
                 ')';
     }
+
 }
