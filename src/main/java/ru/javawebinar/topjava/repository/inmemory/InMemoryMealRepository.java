@@ -1,17 +1,17 @@
 package ru.javawebinar.topjava.repository.inmemory;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
-import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
-import ru.javawebinar.topjava.web.SecurityUtil;
+import ru.javawebinar.topjava.util.Util;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Repository
@@ -54,17 +54,21 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public Collection<Meal> getAll(int userId) {
-        Collection<Meal> mealsSortDescByDate = repository.values().stream()
-                .filter(meal ->meal != null && meal.getUserId() == userId)
-                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
-                .collect(Collectors.toList());
-
-        return mealsSortDescByDate;
+        return getAllFiltered(userId, meal -> true);
     }
 
+    public List<Meal> getAllFiltered(int userId, Predicate<Meal> filter) {
+        Collection<Meal> meals = repository.values();
+        return CollectionUtils.isEmpty(meals) ? Collections.emptyList() :
+                meals.stream()
+                .filter(filter)
+                .sorted(Comparator.comparing(Meal::getDateTime))
+                .collect(Collectors.toList());
+
+    }
     @Override
-    public boolean isBetweenHalfOpenDate(LocalDateTime ld, LocalDateTime starDate, LocalDateTime endDate) {
-        return DateTimeUtil.isBetweenHalfOpenDate(ld.toLocalDate(), starDate.toLocalDate(), endDate.toLocalDate());
+    public List<Meal> getBetweenHalfOpenDate(LocalDateTime startTime, LocalDateTime endTime, int userId) {
+        return getAllFiltered(userId, meal -> Util.isBetweenHalfOpen(meal.getDateTime(), startTime, endTime));
     }
 }
 
