@@ -47,8 +47,5 @@ public class MealService {
         checkNotFoundWithId(repository.save(meal, userId), meal.getId());
     }
 
-//    public boolean filterByDate(LocalDateTime ld, LocalDateTime start, LocalDateTime end) {
-//        return repository.getBetweenHalfOpenDate(ld, start, end);
-//    }
 
 }
