@@ -26,7 +26,7 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     @Override
-    public synchronized Meal save(Meal meal, int userId) {
+    public Meal save(Meal meal, int userId) {
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
             repository.put(meal.getId(), meal);
@@ -39,7 +39,7 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     @Override
-    public synchronized boolean delete(int id, int userId) {
+    public boolean delete(int id, int userId) {
         if (repository.get(id) != null && repository.get(id).getUserId() == userId) {
             return repository.remove(id) != null;
         } else {
@@ -48,20 +48,17 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     @Override
-    public synchronized Meal get(int id, int userId) {
-        if (repository.get(id) != null) {
-            return repository.get(id).getUserId() == userId ? repository.get(id) : null;
-        } else {
-            return null;
-        }
+    public Meal get(int id, int userId) {
+        return repository.get(id);
     }
 
     @Override
-    public synchronized Collection<Meal> getAll(int userId) {
+    public Collection<Meal> getAll(int userId) {
         Collection<Meal> mealsSortDescByDate = repository.values().stream()
-                .filter(meal -> meal.getUserId() == userId)
-                .sorted(Comparator.comparing(Meal::getDate).reversed())
+                .filter(meal ->meal != null && meal.getUserId() == userId)
+                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                 .collect(Collectors.toList());
+
         return mealsSortDescByDate;
     }
 

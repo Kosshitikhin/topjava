@@ -9,6 +9,7 @@ import ru.javawebinar.topjava.repository.UserRepository;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 
 @Repository
@@ -17,15 +18,14 @@ public class InMemoryUserRepository implements UserRepository {
     private final Map<Integer, User> repository = new ConcurrentHashMap<>();
     private final AtomicInteger counter = new AtomicInteger(0);
 
+    public static final int USER_ID = 1;
+    public static final int ADMIN_ID = 2;
+
     @Override
     public boolean delete(int id) {
         log.info("delete {}", id);
 
-        if (repository.get(id) != null) {
-            return repository.remove(id) != null;
-        } else {
-            return false;
-        }
+       return repository.remove(id) != null;
     }
 
     @Override
@@ -43,42 +43,26 @@ public class InMemoryUserRepository implements UserRepository {
     public User get(int id) {
         log.info("get {}", id);
 
-        if(repository.get(id) != null) {
-            return repository.get(id);
-        }
-        return null;
+        return repository.get(id);
     }
 
     @Override
     public List<User> getAll() {
         log.info("getAll");
-        List<User> allUsers = (ArrayList<User>) repository.values();
-        allUsers.sort(new Comparator<User>() {
-            @Override
-            public int compare(User o1, User o2) {
-                if (o1.getName().compareTo(o2.getName()) == 0) {
-                    return o1.getEmail().compareTo(o2.getEmail());
-                } else
-                return o1.getName().compareTo(o2.getName());
-            }
-        });
 
-        return allUsers;
+        return repository.values().stream()
+                .sorted(Comparator.comparing(User::getName).thenComparing(User::getEmail))
+                .collect(Collectors.toList());
     }
 
     @Override
     public User getByEmail(String email) {
         log.info("getByEmail {}", email);
 
-        User userByEmail = null;
-        List<User> users = (ArrayList<User>) repository.values();
-        for (User u : users) {
-            if (email.equalsIgnoreCase(u.getEmail())) {
-                userByEmail = u;
-            }
-        }
-
-        return userByEmail;
+        return getAll().stream()
+                .filter(u -> u.getEmail().equals(email))
+                .findFirst()
+                .orElse(null);
     }
 
 }
