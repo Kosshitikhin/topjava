@@ -32,19 +32,19 @@ public class MealServiceTest {
 
     @Test
     public void get() throws Exception {
-        Meal meal = service.get(USER_M, USER_ID);
+        Meal meal = service.get(MEAL_ID, USER_ID);
         meal.equals(USER_MEAL);
     }
 
     @Test
     public void delete() throws Exception {
-        service.delete(USER_M, USER_ID);
+        service.delete(MEAL_ID, USER_ID);
         service.getAll(USER_ID).equals(null);
     }
 
     @Test(expected = NotFoundException.class)
     public void notFoundDelete() throws Exception {
-        service.delete(USER_M, NOT_FOUND);
+        service.delete(MEAL_ID, NOT_FOUND);
     }
 //
     @Test
@@ -60,7 +60,7 @@ public class MealServiceTest {
         updated.setDescription("Dinner");
         updated.setDateTime(LocalDateTime.of(2020, 11, 30, 10, 0, 0));
         service.update(updated, USER_ID);
-        service.get(USER_M, USER_ID).equals(updated);
+        service.get(MEAL_ID, USER_ID).equals(updated);
     }
 //
     @Test
