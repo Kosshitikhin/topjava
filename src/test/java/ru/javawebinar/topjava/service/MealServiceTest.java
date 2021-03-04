@@ -119,7 +119,7 @@ public class MealServiceTest {
     public void updateNotOwn() {
         log.info("Method {}",testName.getMethodName());
         assertThrows(NotFoundException.class, () -> service.update(meal1, ADMIN_ID));
-        MEAL_MATCHER.assertMatch(service.get(MEAL1_ID, USER_ID), meal1);
+        MEAL_TEST_MATCHER.assertMatch(service.get(MEAL1_ID, USER_ID), meal1);
     }
 
     @Test
