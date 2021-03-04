@@ -40,11 +40,6 @@ public abstract class AbstractBaseEntity {
     }
 
     @Override
-    public String toString() {
-        return getClass().getSimpleName() + ":" + id;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -60,4 +55,5 @@ public abstract class AbstractBaseEntity {
     public int hashCode() {
         return id == null ? 0 : id;
     }
+
 }
