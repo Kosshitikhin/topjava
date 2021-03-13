@@ -66,7 +66,7 @@
     </beans>
 
     <beans profile="jdbc">
-        <context:component-scan base-package="ru.javawebinar.**.repository.jdbc"/>
+        <context:component-scan base-package="ru.javawebinar.topjava.service.jdbc"/>
         <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
             <constructor-arg ref="dataSource" />
         </bean>
@@ -105,11 +105,11 @@
 
 
     <beans profile="jpa">
-        <context:component-scan base-package="ru.javawebinar.**.repository.jpa"/>
+        <context:component-scan base-package="ru.javawebinar.topjava.service.jpa"/>
     </beans>
 
     <beans profile="datajpa">
-        <context:component-scan base-package="ru.javawebinar.**.repository.datajpa"/>
-        <jpa:repositories base-package="ru.javawebinar.**.repository.datajpa"/>
+        <context:component-scan base-package="ru.javawebinar.topjava.service.datajpa"/>
+        <jpa:repositories base-package="ru.javawebinar.topjava.service.datajpa"/>
     </beans>
 </beans>
