@@ -1,4 +1,4 @@
-package ru.javawebinar.topjava.service.datajpa;
+package ru.javawebinar.topjava.repository.datajpa;
 
 import org.junit.Assert;
 import org.junit.Test;

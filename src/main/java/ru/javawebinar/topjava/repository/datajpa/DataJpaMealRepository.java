@@ -1,4 +1,4 @@
-package ru.javawebinar.topjava.service.datajpa;
+package ru.javawebinar.topjava.repository.datajpa;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
