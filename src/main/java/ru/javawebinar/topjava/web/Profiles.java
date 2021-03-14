@@ -24,4 +24,11 @@ public class Profiles {
             throw new IllegalStateException("Could not find DB driver");
         }
     }
+
+    public static class ActiveDbProfileResolver implements ActiveProfilesResolver {
+        @Override
+        public @NonNull String[] resolve(@NonNull Class<?> aClass) {
+            return new String[]{getActiveDbProfile()};
+        }
+    }
 }
