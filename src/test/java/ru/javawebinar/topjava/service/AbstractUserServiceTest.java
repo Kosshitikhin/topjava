@@ -22,7 +22,7 @@ import java.util.List;
 import static org.junit.Assert.assertThrows;
 import static ru.javawebinar.topjava.UserTestData.*;
 
-public class AbstractUserServiceTest {
+public class AbstractUserServiceTest extends AbstractServiceTest {
     @ContextConfiguration({
             "classpath:spring/spring-app.xml",
             "classpath:spring/spring-db.xml"
